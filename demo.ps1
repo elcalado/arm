@@ -30,3 +30,7 @@ $myTags.Add(@{ Name="owner"; Value="calado"})
 $myTags.Add(@{ Name="env"; Value="production"})
 New-AzureRmResourceGroup -Name "elcalado-dev3" -Location "West Europe" -Tag $mytags -Force -Verbose 
 New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-dev3" -TemplateFile "C:\code\armwebcast\src\devtags.json" -Verbose
+
+# Sample 6 - RBAC
+Get-AzureRMAuthorizationChangeLog -StartTime ([DateTime]::Now - [TimeSpan]::FromDays(7)) | FT Caller,Action,RoleName,PrincipalType,PrincipalName,ScopeType,ScopeName
+
