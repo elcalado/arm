@@ -17,14 +17,16 @@ New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-dev" -TemplateFi
 
 
 # Sample 4 - Tagging
-$myTags = New-Object System.Collections.ArrList;
+$myTags = New-Object System.Collections.ArrayList
 $myTags.Add(@{ Name="owner"; Value="calado"})
 $myTags.Add(@{ Name="env"; Value="production"})
 
 New-AzureRmResourceGroup -Name "elcalado-dev2" -Location "West Europe" -Tag $mytags -Force -Verbose 
-New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-dev2" -TemplateUri "C:\code\armwebcast\src\dev.json" -Verbose
+New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-dev2" -TemplateFile "C:\code\armwebcast\src\dev.json" -Verbose
 
-# Sample 4 - Inside Tagging
+# Sample 5 - Inside Tagging
+$myTags = New-Object System.Collections.ArrayList
+$myTags.Add(@{ Name="owner"; Value="calado"})
+$myTags.Add(@{ Name="env"; Value="production"})
 New-AzureRmResourceGroup -Name "elcalado-dev3" -Location "West Europe" -Tag $mytags -Force -Verbose 
-New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-dev3" -TemplateUri "C:\code\armwebcast\src\devtags.json" -Verbose
-
+New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-dev3" -TemplateFile "C:\code\armwebcast\src\devtags.json" -Verbose
