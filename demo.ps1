@@ -1,5 +1,4 @@
-﻿Get-AzureSubscription
-
+﻿
 Login-AzureRmAccount
 Select-AzureRmSubscription -SubscriptionId "ff0d44a7-e7f6-4a10-bfdf-3cbba8eddc36"
 
@@ -47,14 +46,19 @@ Remove-AzureRmRoleAssignment -ResourceGroupName "elcalado-rbac" -RoleDefinitionN
 # get authorization audit log
 Get-AzureRMAuthorizationChangeLog -StartTime ([DateTime]::Now - [TimeSpan]::FromDays(7)) | FT Caller,Action,RoleName,PrincipalType,PrincipalName,ScopeType,ScopeName
 
-#Sample 7 - Resource Locking
+# Sample 8 - Logging 
+Get-AzureRmResourceGroupDeployment -ResourceGroupName “elcalado-dev3" -DeploymentName "devtags"
+Get-AzureRmResourceGroupDeploymentOperation -DeploymentName "devtags" -ResourceGroupName “elcalado-dev3" -Verbose
+
+#Sample 78- Resource Locking
 New-AzureRmResourceLock -LockLevel CanNotDelete -LockNotes 'No deleting!' -LockName 'elcaladolock' -ResourceGroup 'elcalado-rbac' -Verbose 
 Remove-AzureRmResourceLock -LockName "elcaladolock" -ResourceGroupName "elcalado-rbac"
 
-#Sample 8 - Resource Group Export
+
+#Sample 9 - Resource Group Export
 Export-AzureRmResourceGroup -ResourceGroupName "elcalado-dev3" -Path c:\code\armwebcast\exports\dev3.json
 Save-AzureRmResourceGroupDeploymentTemplate -DeploymentName devtags -ResourceGroupName elcalado-dev3 -Path c:\code\armwebcast\exports\dev.json
 
-# Sample 9 - TODO App
+# Sample 10 - TODO App
 New-AzureRmResourceGroup -Name "elcalado-todo" -Location "West Europe" -Force -Verbose
 New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-todo" -TemplateUri "c:\code\armwebcast\src\todo.json" -Verbose 
