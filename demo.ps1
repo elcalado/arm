@@ -7,6 +7,8 @@ Select-AzureRmSubscription -SubscriptionId "ff0d44a7-e7f6-4a10-bfdf-3cbba8eddc36
 New-AzureRmResourceGroup -Name "elcalado-hello" -Location "West Europe" -Force -Verbose
 New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-hello" -TemplateFile "C:\code\armwebcast\src\helloWorld.json" -Verbose
 
+Get-AzureRmResourceGroup -Name "elcalado-hello"
+
 # Sample 2 - Storage Account
 New-AzureRmResourceGroup -Name "elcalado-store1" -Location "West Europe" -Force -Verbose
 New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-store1" -TemplateFile "C:\code\armwebcast\src\storageaccount.json" -Verbose
@@ -32,5 +34,24 @@ New-AzureRmResourceGroup -Name "elcalado-dev3" -Location "West Europe" -Tag $myt
 New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-dev3" -TemplateFile "C:\code\armwebcast\src\devtags.json" -Verbose
 
 # Sample 6 - RBAC
+
+# get role list
+Get-AzureRmRoleDefinition | FT Name, Description
+# get assignments for resource group
+Get-AzureRmRoleAssignment -ResourceGroupName "elcalado-rbac"
+# get role assignments for user
+Get-AzureRmRoleAssignment -SignInName luis.calado@outlook.pt -ExpandPrincipalGroups
+# add a new user role assignment to a resource group
+New-AzureRmRoleAssignment -SignInName elcaladodpe@hotmail.com -RoleDefinitionName "Contributor" -ResourceGroupName "elcalado-rbac"
+# remove role assignment for user
+Remove-AzureRmRoleAssignment -ResourceGroupName "elcalado-rbac" -RoleDefinitionName "Contributor" -SignInName "elcaladodpe@hotmail.com" 
+# get authorization audit log
 Get-AzureRMAuthorizationChangeLog -StartTime ([DateTime]::Now - [TimeSpan]::FromDays(7)) | FT Caller,Action,RoleName,PrincipalType,PrincipalName,ScopeType,ScopeName
 
+#Sample 7 - Resource Locking
+New-AzureRmResourceLock -LockLevel CanNotDelete -LockNotes 'No deleting!' -LockName 'elcaladolock' -ResourceGroup 'elcalado-rbac' -Verbose 
+Remove-AzureRmResourceLock -LockName "elcaladolock" -ResourceGroupName "elcalado-rbac"
+
+#Sample 8 - Resource Group Export
+Export-AzureRmResourceGroup -ResourceGroupName "elcalado-dev3" -Path c:\code\arwebcast\exports\dev3.json
+Save-AzureRmResourceGroupDeploymentTemplate -DeploymentName devtags -ResourceGroupName elcalado-dev3 -Path c:\code\armwebcast\exports\dev.json
