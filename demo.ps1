@@ -17,7 +17,6 @@ New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-store1" -Templat
 New-AzureRmResourceGroup -Name "elcalado-dev" -Location "West Europe" -Force -Verbose
 New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-dev" -TemplateFile "C:\code\armwebcast\src\dev.json" -Verbose 
 
-
 # Sample 4 - Tagging
 $myTags = New-Object System.Collections.ArrayList
 $myTags.Add(@{ Name="owner"; Value="calado"})
@@ -53,5 +52,9 @@ New-AzureRmResourceLock -LockLevel CanNotDelete -LockNotes 'No deleting!' -LockN
 Remove-AzureRmResourceLock -LockName "elcaladolock" -ResourceGroupName "elcalado-rbac"
 
 #Sample 8 - Resource Group Export
-Export-AzureRmResourceGroup -ResourceGroupName "elcalado-dev3" -Path c:\code\arwebcast\exports\dev3.json
+Export-AzureRmResourceGroup -ResourceGroupName "elcalado-dev3" -Path c:\code\armwebcast\exports\dev3.json
 Save-AzureRmResourceGroupDeploymentTemplate -DeploymentName devtags -ResourceGroupName elcalado-dev3 -Path c:\code\armwebcast\exports\dev.json
+
+# Sample 9 - TODO App
+New-AzureRmResourceGroup -Name "elcalado-todo" -Location "West Europe" -Force -Verbose
+New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-todo" -TemplateUri "c:\code\armwebcast\src\todo.json" -Verbose 
