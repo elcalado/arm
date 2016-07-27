@@ -7,7 +7,9 @@ Select-AzureRmSubscription -SubscriptionId "c90faef9-fae5-4121-be15-834cee249d71
 New-AzureRmResourceGroup -Name "elcalado-hello" -Location "West Europe" -Force -Verbose
 New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-hello" -TemplateFile "C:\code\arm\helloWorld.json" -Verbose
 
+#get info about the resource group
 Get-AzureRmResourceGroup -Name "elcalado-hello"
+
 
 # Sample 2 - Storage Account
 New-AzureRmResourceGroup -Name "elcalado-store1" -Location "West Europe" -Force -Verbose
