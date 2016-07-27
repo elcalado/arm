@@ -38,14 +38,19 @@ New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-rbac" -TemplateF
 
 # get role list
 Get-AzureRmRoleDefinition | FT Name, Description
+
 # get assignments for resource group
 Get-AzureRmRoleAssignment -ResourceGroupName "elcalado-rbac"
-# get role assignments for user
-Get-AzureRmRoleAssignment -SignInName vfreitas@microsoft.com -ExpandPrincipalGroups
+
 # add a new user role assignment to a resource group
 New-AzureRmRoleAssignment -SignInName joalmeid@microsoft.com -RoleDefinitionName "Contributor" -ResourceGroupName "elcalado-rbac"
+
+# get role assignments for user
+Get-AzureRmRoleAssignment -SignInName joalmeid@microsoft.com -ExpandPrincipalGroups
+
 # remove role assignment for user
 Remove-AzureRmRoleAssignment -ResourceGroupName "elcalado-rbac" -RoleDefinitionName "Contributor" -SignInName "joalmeid@microsoft.com" 
+
 # get authorization audit log
 Get-AzureRMAuthorizationChangeLog -StartTime ([DateTime]::Now - [TimeSpan]::FromDays(7)) | FT Caller,Action,RoleName,PrincipalType,PrincipalName,ScopeType,ScopeName
 
@@ -56,7 +61,6 @@ Get-AzureRmResourceGroupDeploymentOperation -DeploymentName "devtags" -ResourceG
 #Sample 78- Resource Locking
 New-AzureRmResourceLock -LockLevel CanNotDelete -LockNotes 'No deleting!' -LockName 'elcaladolock' -ResourceGroup 'elcalado-rbac' -Verbose 
 Remove-AzureRmResourceLock -LockName "elcaladolock" -ResourceGroupName "elcalado-rbac"
-
 
 #Sample 9 - Resource Group Export
 Export-AzureRmResourceGroup -ResourceGroupName "elcalado-dev3" -Path c:\code\arm\exports\dev3.json
