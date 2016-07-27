@@ -130,24 +130,24 @@
                 "administratorLoginPassword": "[parameters('sqlServerAdminPassword')]"
             },
             "resources": [
-				{
-				  "name": "[parameters('sqlDbName')]",
-				  "type": "databases",
-				  "location": "[resourceGroup().location]",
-				  "tags": {
-					"displayName": "Database"
-				  },
-				  "apiVersion": "2014-04-01-preview",
-				  "dependsOn": [
-					"[parameters('sqlServerName')]"
-				  ],
-				  "properties": {
-					"edition": "[parameters('edition')]",
-					"collation": "[parameters('collation')]",
-					"maxSizeBytes": "[parameters('maxSizeBytes')]",
-					"requestedServiceObjectiveName": "[parameters('requestedServiceObjectiveName')]"
-				  }
+              {
+                "name": "[parameters('sqlDbName')]",
+                "type": "databases",
+                "location": "[parameters('sqlServerLocation')]",
+                "tags": {
+                  "displayName": "Database"
                 },
+                "apiVersion": "2014-04-01-preview",
+                "dependsOn": [
+                  "[parameters('sqlServerName')]"
+                ],
+                "properties": {
+                  "edition": "[parameters('edition')]",
+                  "collation": "[parameters('collation')]",
+                  "maxSizeBytes": "[parameters('maxSizeBytes')]",
+                  "requestedServiceObjectiveName": "[parameters('requestedServiceObjectiveName')]"
+                }
+              },
 				{
 				  "type": "firewallrules",
 				  "apiVersion": "2014-04-01-preview",

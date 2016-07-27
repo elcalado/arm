@@ -33,17 +33,19 @@ New-AzureRmResourceGroup -Name "elcalado-dev3" -Location "West Europe" -Tag $myt
 New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-dev3" -TemplateFile "C:\code\arm\devtags.json" -Verbose
 
 # Sample 6 - RBAC
+New-AzureRmResourceGroup -Name "elcalado-rbac" -Location "North Europe" -Force -Verbose
+New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-rbac" -TemplateFile "C:\code\arm\storageaccount.json" -Verbose
 
 # get role list
 Get-AzureRmRoleDefinition | FT Name, Description
 # get assignments for resource group
 Get-AzureRmRoleAssignment -ResourceGroupName "elcalado-rbac"
 # get role assignments for user
-Get-AzureRmRoleAssignment -SignInName luis.calado@outlook.pt -ExpandPrincipalGroups
+Get-AzureRmRoleAssignment -SignInName vfreitas@microsoft.com -ExpandPrincipalGroups
 # add a new user role assignment to a resource group
-New-AzureRmRoleAssignment -SignInName elcaladodpe@hotmail.com -RoleDefinitionName "Contributor" -ResourceGroupName "elcalado-rbac"
+New-AzureRmRoleAssignment -SignInName joalmeid@microsoft.com -RoleDefinitionName "Contributor" -ResourceGroupName "elcalado-rbac"
 # remove role assignment for user
-Remove-AzureRmRoleAssignment -ResourceGroupName "elcalado-rbac" -RoleDefinitionName "Contributor" -SignInName "elcaladodpe@hotmail.com" 
+Remove-AzureRmRoleAssignment -ResourceGroupName "elcalado-rbac" -RoleDefinitionName "Contributor" -SignInName "joalmeid@microsoft.com" 
 # get authorization audit log
 Get-AzureRMAuthorizationChangeLog -StartTime ([DateTime]::Now - [TimeSpan]::FromDays(7)) | FT Caller,Action,RoleName,PrincipalType,PrincipalName,ScopeType,ScopeName
 
@@ -57,9 +59,9 @@ Remove-AzureRmResourceLock -LockName "elcaladolock" -ResourceGroupName "elcalado
 
 
 #Sample 9 - Resource Group Export
-Export-AzureRmResourceGroup -ResourceGroupName "elcalado-dev3" -Path c:\code\armwebcast\exports\dev3.json
-Save-AzureRmResourceGroupDeploymentTemplate -DeploymentName devtags -ResourceGroupName elcalado-dev3 -Path c:\code\armwebcast\exports\dev.json
+Export-AzureRmResourceGroup -ResourceGroupName "elcalado-dev3" -Path c:\code\arm\exports\dev3.json
+Save-AzureRmResourceGroupDeploymentTemplate -DeploymentName devtags -ResourceGroupName elcalado-dev3 -Path c:\code\arm\exports\dev.json
 
 # Sample 10 - TODO App
-New-AzureRmResourceGroup -Name "elcalado-todo" -Location "West Europe" -Force -Verbose
+New-AzureRmResourceGroup -Name "elcalado-todo" -Location "North Europe" -Force -Verbose
 New-AzureRmResourceGroupDeployment -ResourceGroupName "elcalado-todo" -TemplateUri "c:\code\arm\todo.json" -Verbose 
